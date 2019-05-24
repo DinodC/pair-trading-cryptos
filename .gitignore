@@ -1,0 +1,6 @@
+# Ignore Jupyter notebook checkpoints
+.ipynb_checkpoints
+
+# Ignore OS generated files
+.DS_Store
+
