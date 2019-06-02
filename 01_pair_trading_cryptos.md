@@ -1,5 +1,5 @@
 
-# Pair Trading With Cryptocurrencies Part 1
+# Pair-trading With Cryptocurrencies Part 1
 
 ## How To Scrape Cryptocurrency Data Using Python
 

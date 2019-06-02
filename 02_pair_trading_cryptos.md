@@ -1,5 +1,5 @@
 
-# Pair Trading With Cryptocurrencies Part 2
+# Pair-trading With Cryptocurrencies Part 2
 
 ## How To Implement A Pair-trading Strategy Using Python
 
