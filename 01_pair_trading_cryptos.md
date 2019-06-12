@@ -29,7 +29,7 @@ APIs provide a convenient way to source data from providers, exchanges and other
 
 ### 1. Quandl
 
-[Quandl](https://www.quandl.com) is a financial, economic and alternative data provider. It specializes in distributing alternative data to investment firms, arguing that non-traditional data is an untapped source of alpha. Quandl sources data from various providers such as exchanges, tech firms and other companies. It has free and premium datasets to choose from.
+Quandl is a financial, economic and alternative data provider. It specializes in distributing alternative data to investment firms, arguing that non-traditional data is an untapped source of alpha. Quandl sources data from various providers such as exchanges, tech firms and other companies. It has free and premium datasets to choose from.
 
 To pull data from Quandl, you need to:
 1. Register with Quandl to get an API key, it is free of charge.
@@ -40,7 +40,7 @@ Here we use quandl package to retrieve cryptocurrency data from Bitfinex and GDA
 
 ### Bitfinex
 
-[Bitfinex](https://www.bitfinex.com) is one of the largest cryptocurrency trading platforms in the world, and is headquartered in Hong Kong. It provides an extensive list of crypto-to-crypto and crypto-to-fiat datasets. Collected data using quandl's get function comes in a convenient DataFrame object. A drawback is the limited OHLCV (Open-High-Low-Close-Volume) historical data spanning 2 years only.
+Bitfinex is one of the largest cryptocurrency trading platforms in the world, and is headquartered in Hong Kong. It provides an extensive list of crypto-to-crypto and crypto-to-fiat datasets. Collected data using quandl's get function comes in a convenient DataFrame object. A drawback is the limited OHLCV (Open-High-Low-Close-Volume) historical data spanning 2 years only.
 
 
 ```python
@@ -60,7 +60,7 @@ Here we use quandl package to retrieve cryptocurrency data from Bitfinex and GDA
 
 ### GDAX (Global Digital Asset Exchange)
 
-[GDAX](https://pro.coinbase.com) is a popular cryptocurrency exchange headquartered in San Francisco, California. It was formerly known as Coinbase Exchange. Pulled OHLCV historical data from GDAX spans 3y, which is longer than Bitfinex datasets. Collected data using quandl's get function comes in a convenient DataFrame object. A drawback is the limited number of cryptocurrency datasets compared to Bitfinex.
+GDAX is a popular cryptocurrency exchange headquartered in San Francisco, California. It was formerly known as Coinbase Exchange. Pulled OHLCV historical data from GDAX spans 3y, which is longer than Bitfinex datasets. Collected data using quandl's get function comes in a convenient DataFrame object. A drawback is the limited number of cryptocurrency datasets compared to Bitfinex.
 
 
 ```python
@@ -80,12 +80,12 @@ Here we use quandl package to retrieve cryptocurrency data from Bitfinex and GDA
 
 ### 2. CoinAPI
 
-[CoinAPI](https://www.coinapi.io) is a one-stop shop providing cryptocurrency data from various exchanges such as GDAX, Huobi, Kraken, etc. It provides data via their API and other channels as well. Here, I will use CoinAPI's free registration to retrieve cryptocurrency data.
+CoinAPI is a one-stop shop providing cryptocurrency data from various exchanges such as GDAX, Huobi, Kraken, etc. It provides data via their API and other channels as well. Here, I will use CoinAPI's free registration to retrieve cryptocurrency data.
 
 To pull data from CoinAPI, you need to:
 1. Register with CoinAPI to get an API key for authenticating requests.
 2. Pull data from CoinAPI using their API, or you can use Python, Java, C#, and etc.
-3. If you use Python, then you need to install Python package [requests](https://2.python-requests.org/en/master/) to source data from CoinAPI.
+3. If you use Python, then you need to install Python package requests to source data from CoinAPI.
 
 CoinAPI provides a rich list of cryptocurrencies and exchanges to collect data from. Note that under the free subscription, requests are limited to 100 per day. Also, historical OHLCV data per request is limited to a 100 data points. CoinAPI returns data in JSON format.
 
@@ -108,13 +108,13 @@ Scraping provides a straightforward way of sourcing data from a web page.
 
 ### CoinMarketCap
 
-[CoinMarketCap](https://coinmarketcap.com) provides cryptocurrency data by pulling information from different exchanges.
+CoinMarketCap provides cryptocurrency data by pulling information from different exchanges.
 It queries cryptocurrency data from the exchanges, processes and delivers it through their website.
 CoinMarketCap has certain guidelines for cryptocurrencies and their exchanges to be included on the platform.
 
 You can pull data from CoinMarketCap via their API but their free registration doesn't include historical data.
 I will illustrate step-by-step how to retrieve historical OHLCV by scraping their website.
-Python package [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) is used to collect data from CoinMarketCap.
+Python package BeautifulSoup is used to collect data from CoinMarketCap.
 
 CoinMarketCap provides an extensive list of crypto-to-crypto and crypto-to-fiat data.
 Cryptocurrency OHLCV historical data spans more than 5 years for BTCUSD, LTCUSD and XRPUSD.
@@ -133,35 +133,11 @@ Import packages
 
 ```python
 from requests import get
-```
-
-
-```python
 from bs4 import BeautifulSoup
-```
-
-
-```python
 import pandas as pd
-```
-
-
-```python
 from pandas import DataFrame
-```
-
-
-```python
 import matplotlib.pyplot as plt
-```
-
-
-```python
 import pickle
-```
-
-
-```python
 %matplotlib inline
 ```
 
@@ -443,6 +419,92 @@ crypto.head()
 
 
 ```python
+crypto.BTC.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Open</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Close</th>
+      <th>Volume</th>
+      <th>Market Cap</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2013-04-28</th>
+      <td>135.30</td>
+      <td>135.98</td>
+      <td>132.10</td>
+      <td>134.21</td>
+      <td>0.0</td>
+      <td>1.488567e+09</td>
+    </tr>
+    <tr>
+      <th>2013-04-29</th>
+      <td>134.44</td>
+      <td>147.49</td>
+      <td>134.00</td>
+      <td>144.54</td>
+      <td>0.0</td>
+      <td>1.603769e+09</td>
+    </tr>
+    <tr>
+      <th>2013-04-30</th>
+      <td>144.00</td>
+      <td>146.93</td>
+      <td>134.05</td>
+      <td>139.00</td>
+      <td>0.0</td>
+      <td>1.542813e+09</td>
+    </tr>
+    <tr>
+      <th>2013-05-01</th>
+      <td>139.00</td>
+      <td>139.89</td>
+      <td>107.72</td>
+      <td>116.99</td>
+      <td>0.0</td>
+      <td>1.298955e+09</td>
+    </tr>
+    <tr>
+      <th>2013-05-02</th>
+      <td>116.38</td>
+      <td>125.60</td>
+      <td>92.28</td>
+      <td>105.21</td>
+      <td>0.0</td>
+      <td>1.168517e+09</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
 crypto.tail()
 ```
 
@@ -499,30 +561,6 @@ crypto.tail()
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th>2019-05-26</th>
-      <td>8055.21</td>
-      <td>8687.52</td>
-      <td>7924.67</td>
-      <td>8673.22</td>
-      <td>2.667797e+10</td>
-      <td>1.537255e+11</td>
-      <td>251.72</td>
-      <td>269.17</td>
-      <td>247.25</td>
-      <td>267.07</td>
-      <td>...</td>
-      <td>0.379447</td>
-      <td>0.408413</td>
-      <td>1.848939e+09</td>
-      <td>1.720098e+10</td>
-      <td>102.70</td>
-      <td>112.67</td>
-      <td>99.74</td>
-      <td>111.42</td>
-      <td>5.168378e+09</td>
-      <td>6.902346e+09</td>
-    </tr>
     <tr>
       <th>2019-05-27</th>
       <td>8674.07</td>
@@ -619,9 +657,119 @@ crypto.tail()
       <td>4.971290e+09</td>
       <td>6.746180e+09</td>
     </tr>
+    <tr>
+      <th>2019-05-31</th>
+      <td>8320.29</td>
+      <td>8586.66</td>
+      <td>8172.55</td>
+      <td>8574.50</td>
+      <td>2.536519e+10</td>
+      <td>1.520599e+11</td>
+      <td>256.02</td>
+      <td>268.66</td>
+      <td>249.11</td>
+      <td>268.11</td>
+      <td>...</td>
+      <td>0.412928</td>
+      <td>0.438574</td>
+      <td>2.225731e+09</td>
+      <td>1.849992e+10</td>
+      <td>108.70</td>
+      <td>114.63</td>
+      <td>105.91</td>
+      <td>114.54</td>
+      <td>4.207966e+09</td>
+      <td>7.103874e+09</td>
+    </tr>
   </tbody>
 </table>
 <p>5 rows × 24 columns</p>
+</div>
+
+
+
+
+```python
+crypto.BTC.tail()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Open</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Close</th>
+      <th>Volume</th>
+      <th>Market Cap</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2019-05-27</th>
+      <td>8674.07</td>
+      <td>8907.17</td>
+      <td>8668.70</td>
+      <td>8805.78</td>
+      <td>2.794984e+10</td>
+      <td>1.560938e+11</td>
+    </tr>
+    <tr>
+      <th>2019-05-28</th>
+      <td>8802.76</td>
+      <td>8807.02</td>
+      <td>8634.72</td>
+      <td>8719.96</td>
+      <td>2.422692e+10</td>
+      <td>1.545902e+11</td>
+    </tr>
+    <tr>
+      <th>2019-05-29</th>
+      <td>8718.59</td>
+      <td>8755.85</td>
+      <td>8482.73</td>
+      <td>8659.49</td>
+      <td>2.347348e+10</td>
+      <td>1.535370e+11</td>
+    </tr>
+    <tr>
+      <th>2019-05-30</th>
+      <td>8661.76</td>
+      <td>9008.31</td>
+      <td>8221.27</td>
+      <td>8319.47</td>
+      <td>2.924653e+10</td>
+      <td>1.475251e+11</td>
+    </tr>
+    <tr>
+      <th>2019-05-31</th>
+      <td>8320.29</td>
+      <td>8586.66</td>
+      <td>8172.55</td>
+      <td>8574.50</td>
+      <td>2.536519e+10</td>
+      <td>1.520599e+11</td>
+    </tr>
+  </tbody>
+</table>
 </div>
 
 
@@ -687,7 +835,7 @@ plt.tight_layout() # Right y label is not clipped
 ```
 
 
-![png](output_34_0.png)
+![png](output_30_0.png)
 
 
 Note that ETHUSD prices are only available from July 2015 because Ethereum was released around this time.

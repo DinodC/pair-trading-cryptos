@@ -5,13 +5,13 @@
 
 ## Introduction
 
-Cryptocurrencies (or cryptos) captured the world's imagination during the last couple of years.
-From their spectacular rise in 2017, to their equally hard fall in 2018, and to their most recent revival this year. Cryptocurrencies and the blockchain technology powering them are regarded as disruptive forces, proposing an alternative decentralized monetary system. They have also gathered their fair share of criticism.
+Cryptocurrencies (or cryptos) captured the world's imagination during the last couple of years. 
+From their spectacular rise in 2017, to their equally hard fall in 2018, and to their most recent revival this year. Cryptocurrencies and the blockchain technology powering them are regarded as disruptive forces, proposing an alternative decentralized monetary system. They have also gathered their fair share of criticism. 
 Cryptocurrencies are accused of facilitating transfer of "dirty money" between criminals. They provided mind-boggling returns a couple years back and earned the reputation of being a "get rich quick" scheme.
 
 In this article, we turn our attention to cryptocurrencies as investment vehicles sharing common characteristics with other asset classes like FX, commodities and precious metals. Cryptocurrencies, like fiat currencies, allow for easy transfer of wealth between individuals and businesses. They are similar to commodities with regards to the limited supply they offer. Cryptocurrencies have drawn comparisons to gold which is viewed as a "safe-haven" investment.
 
-This is the second part of the article where I will present how to implement a trading strategy using cryptocurrency pairs, and backtest it using the collected dataset in the [previous article](https://medium.com/@dinodecastro).
+This is the second part of the article where I will present how to implement a trading strategy using cryptocurrency pairs, and backtest it using the collected dataset in the previous article.
 
 ## Implementing A Pair-trading Strategy
 We implement a trading strategy inspired from [E. Chan's pair-trading strategy](https://www.amazon.com/Quantitative-Trading-Build-Algorithmic-Business/dp/0470284889/ref=sr_1_3?keywords=ernest+chan&qid=1559220592&s=gateway&sr=8-3) involving gold and gold miners ETFs. After money is injected to traditional markets like equity and fixed-income, it will eventually overflow into alternative asset classes like cryptocurrencies. We suppose that money flowing to cryptocurrencies will drive their prices together.
@@ -35,35 +35,11 @@ Import packages
 
 ```python
 import numpy as np
-```
-
-
-```python
 import pandas as pd
-```
-
-
-```python
 from pandas import Series, DataFrame
-```
-
-
-```python
 import pickle
-```
-
-
-```python
 import matplotlib.pyplot as plt
-```
-
-
-```python
 import statsmodels.api as sm
-```
-
-
-```python
 %matplotlib inline
 ```
 
@@ -75,7 +51,7 @@ Load the historical data
 ```python
 with open('data_coinmarketcap.pickle', 'rb') as f:
     data = pickle.load(f)
-
+    
 f.close()
 ```
 
@@ -89,7 +65,7 @@ close = pd.DataFrame({'BTC': data.BTC.Close,
                       'XRP': data.XRP.Close})
 ```
 
-Create an id for [Bitcoin](https://bitcoin.org), [Ethereum](https://www.ethereum.org), [Litecoin](https://litecoin.org) and [Ripple](https://ripple.com) cryptocurrencies to USD.
+Create an id for Bitcoin, Ethereum, Litecoin and Ripple cryptocurrencies to USD.
 
 
 ```python
@@ -97,7 +73,7 @@ id = ['BTC', 'ETH', 'LTC', 'XRP']
 ```
 
 ## Pair-trading Strategy Implementation
-Before implementing the pair-trading strategy, recall in a previous [article](https://medium.com/@dinodecastro/backtesting-a-trading-strategy-part-3-68191c970be7) the things to look out for when backtesting:
+Before implementing the pair-trading strategy, recall in a previous article the things to look out for when backtesting:
 1. Data-snooping bias
 2. Look-ahead bias
 3. Transaction costs
@@ -110,12 +86,12 @@ It can originate from overfitting the model to a dataset by increasing the numbe
 Data-snooping can also come from optimizing trading decisions e.g. choosing entry and exit thresholds.
 
 To mitigate data-snooping bias, we can do the following:
-1. Out-of-sample testing:
-Out-of-sample testing involves separating historical data into a training and testing set.
+1. Out-of-sample testing: 
+Out-of-sample testing involves separating historical data into a training and testing set. 
 We optimize the model's parameters using the training set, and validate it on the testing or out-of-sample set.
 2. Paper trading:
-Paper trading share the same idea as out-of-sample testing in separating the dataset.
-We optimize the model's parameters using the historical data, and run it using incoming actual data.
+Paper trading share the same idea as out-of-sample testing in separating the dataset. 
+We optimize the model's parameters using the historical data, and run it using incoming actual data. 
 
 In this article, we apply out-of-sample testing by dividing the data into two equal sets.
 
@@ -143,17 +119,16 @@ Another way to mitigate look-ahead bias is the following check:
 Note that the implementation of this check is just after the backtesting.
 
 ### Including Transaction Costs
-Transaction costs make the backtest more realistic.
+Transaction costs make the backtest more realistic. 
 They deflate a trading strategy's performance by including the following:
 1. Slippage is the difference between your expected price and the executed price.
 2. Commission fee is a service charge extracted by your broker for handling your purchases.
 3. Market impact is the price effect you generate each time you pass a considerable order to the market.
 
-In this article, we assume a round-trip transaction cost of 10 BPs per trade.
+In this article, we assume a round-trip transaction cost of 10 BPs per trade. 
 
 
 ```python
-# Round-trip transaction cost per trade
 round_trip = 0.0010
 ```
 
@@ -176,14 +151,14 @@ crypto_1 = id[0]
 
 # Initialize output
 output = {id[1]: {},
-          id[2]: {},
+          id[2]: {}, 
           id[3]: {}}
 
 for i in range(1, len(id)):
-
+    
     # Set crypto 2 to ETH, LTC and XRP
     crypto_2 = id[i]
-
+    
     # Calculate the hedge ratio using the training set
     model = sm.OLS(training_set[crypto_1], training_set[crypto_2])
     result = model.fit()
@@ -197,7 +172,7 @@ for i in range(1, len(id)):
     spread_std = spread[training_start:training_end].std()
     # Z-score of the spread
     z_score = (spread - spread_mean) / spread_std
-
+    
     # Implement pair trading strategy
     # Create masks for long, short and exit positions
     longs = (z_score <= -entry_threshold)
@@ -215,7 +190,7 @@ for i in range(1, len(id)):
     positions.fillna(method='ffill', inplace=True)
     # Lag the positions to the next day because we base calculations on close
     positions = positions.shift(periods=1)
-
+    
     # Calculate the performance
     # Initialize the returns
     returns = pd.DataFrame({crypto_1: close[crypto_1],
@@ -232,17 +207,17 @@ for i in range(1, len(id)):
     # Create a transaction costs Series
     tc = pd.Series(np.zeros(len(mask)), index=mask.index)
     tc[mask] = - round_trip
-
+    
     # Update pnl DataFrame
     pnl['TC'] = tc
     # Calculate net pnl
     pnl_net = pnl.sum(axis='columns')
-
+    
     # Calculate the Sharpe ratio under the training set
     sharpe_training = np.sqrt(252) * pnl_net[training_start:training_end].mean() / pnl_net[training_start:training_end].std()
     # Calculate the Sharpe ratio under the testing set
     sharpe_testing = np.sqrt(252) * pnl_net[testing_start:testing_end].mean() / pnl_net[testing_start:testing_end].std()
-
+            
     # Generate the output
     # Gather data
     data = {'spread': z_score,
@@ -253,7 +228,6 @@ for i in range(1, len(id)):
            }
     # Update the output
     output.update({crypto_2: data})
-
 ```
 
 ### Check For Look-ahead Bias
@@ -264,7 +238,7 @@ Load the output generated from the truncated historical data
 ```python
 with open('output_truncated.pickle', 'rb') as f:
     output_truncated = pickle.load(f)
-
+    
 f.close()
 ```
 
@@ -295,8 +269,7 @@ mask.ETH.value_counts()
 
 
 
-    True     1216
-    False       5
+    True    1222
     Name: ETH, dtype: int64
 
 
@@ -310,8 +283,7 @@ mask.LTC.value_counts()
 
 
 
-    True     2118
-    False       5
+    True    2124
     Name: LTC, dtype: int64
 
 
@@ -325,8 +297,7 @@ mask.XRP.value_counts()
 
 
 
-    True     2020
-    False       5
+    True    2026
     Name: XRP, dtype: int64
 
 
@@ -396,7 +367,7 @@ plt.ylim(-50, 50)
 
 
 
-![png](output_43_1.png)
+![png](output_37_1.png)
 
 
 Remarks:
@@ -468,6 +439,64 @@ sharpe
 
 
 
+
+```python
+sharpe = pd.DataFrame({'BTC & ETH': [output['ETH']['sharpe training'], output['ETH']['sharpe testing']],
+                       'BTC & LTC': [output['LTC']['sharpe training'], output['LTC']['sharpe testing']],
+                       'BTC & XRP': [output['XRP']['sharpe training'], output['XRP']['sharpe testing']]},
+                      index=['Training Set', 'Testing Set'])
+```
+
+
+```python
+sharpe
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>BTC &amp; ETH</th>
+      <th>BTC &amp; LTC</th>
+      <th>BTC &amp; XRP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Training Set</th>
+      <td>1.817663</td>
+      <td>1.175902</td>
+      <td>1.272301</td>
+    </tr>
+    <tr>
+      <th>Testing Set</th>
+      <td>-0.200709</td>
+      <td>0.782145</td>
+      <td>0.480900</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
 Remarks:
 1. On the training set, trading pairs BTC & ETH, BTC & LTC and BTC & XRP generated good Sharpe ratios, higher than 1.
 2. On the testing set, the pair-trading strategy generated lower Sharpe ratios than the training set.
@@ -506,7 +535,7 @@ plt.ylim(-1, 10)
 
 
 
-![png](output_52_1.png)
+![png](output_48_1.png)
 
 
 Remarks:
